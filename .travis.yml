@@ -1,0 +1,19 @@
+language: c
+before_install:
+  - wget https://downloads.arduino.cc/arduino-cli/arduino-cli-0.2.2-alpha.preview-linux64.tar.bz2
+  - tar xfvj arduino-cli-0.2.2-alpha.preview-linux64.tar.bz2
+  - sudo mv arduino-cli-0.2.2-alpha.preview-linux64 /usr/local/bin/arduino-cli
+install:
+  - arduino-cli core update-index
+  - arduino-cli core install arduino:avr
+  - arduino-cli lib install OneWire
+  - arduino-cli lib install DallasTemperature
+  - git clone https://github.com/mikalhart/TinyGPSPlus ~/Arduino/libraries/TinyGPSPlus
+  - git clone -b v1.0.2 https://github.com/mikalhart/TinyGPSPlus ~/Arduino/libraries/TinyGPSPlus
+  - git clone https://github.com/markqvist/LibAPRS ~/Arduino/libraries/LibAPRS
+script:
+  - arduino-cli compile -b arduino:avr:uno $PWD/LKB.ino
+ notifications:
+   email:
+     on_success: change
+     on_failure: change
